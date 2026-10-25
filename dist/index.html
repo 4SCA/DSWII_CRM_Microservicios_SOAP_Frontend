@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRM Microservicios SOAP - DSW II Cibertec</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366F1'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+  <script type="module" crossorigin src="/assets/index-Bi7sqxGq.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BzxgKKjB.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h2>DSW II CRM</h2>
+          <span>Microservicios & SOAP</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <div class="menu-label">Principal</div>
+        <a class="nav-item active" data-view="dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <div class="menu-label">Gestión Comercial</div>
+        <a class="nav-item" data-view="clientes">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Clientes (SOAP)</span>
+          <span class="nav-badge" id="badge-clientes">0</span>
+        </a>
+
+        <a class="nav-item" data-view="cotizaciones">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>Cotizaciones</span>
+          <span class="nav-badge" id="badge-cotizaciones">0</span>
+        </a>
+
+        <a class="nav-item" data-view="llamadas">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>Registro Llamadas</span>
+          <span class="nav-badge" id="badge-llamadas">0</span>
+        </a>
+
+        <div class="menu-label">Arquitectura SOA</div>
+        <a class="nav-item" data-view="soap-console">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          <span>Consola SOAP / CXF</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar" id="sidebar-user-avatar">CM</div>
+          <div class="user-meta">
+            <div class="user-name" id="sidebar-user-name">Carlos Mendoza</div>
+            <div class="user-role-badge" id="sidebar-user-role">ADMIN</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btn-logout" title="Cerrar sesión">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Container -->
+    <div class="main-wrapper">
+      <!-- Topbar Navigation -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 class="view-title" id="current-view-title">Dashboard General</h1>
+          <div class="gateway-status-pill" id="pill-gateway-status" title="Haz clic para ver estado o cambiar modo de conexión">
+            <span class="status-dot mock" id="status-dot"></span>
+            <span id="status-text">Modo Demo Local</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="btn btn-secondary btn-sm" id="btn-quick-cliente">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>+ Cliente</span>
+          </button>
+          <button class="btn btn-primary btn-sm" id="btn-quick-cotizacion">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>+ Cotización</span>
+          </button>
+          <button class="btn btn-secondary btn-sm" id="btn-quick-llamada">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>+ Llamada</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- View Container -->
+      <main class="content-body">
+        
+        <!-- VIEW: DASHBOARD -->
+        <section id="view-dashboard" class="crm-view">
+          <div class="grid-stats">
+            <div class="stat-card">
+              <div class="stat-icon blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-total-clientes">0</div>
+                <div class="stat-label">Clientes en Sistema</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon amber">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-total-cotizaciones">0</div>
+                <div class="stat-label">Cotizaciones Emitidas</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon green">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-monto-cotizaciones">S/ 0.00</div>
+                <div class="stat-label">Monto Cotizado Total</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon cyan">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-total-llamadas">0</div>
+                <div class="stat-label">Llamadas Registradas</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Cotizaciones -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span>Últimas Cotizaciones Comerciales</span>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="window.navigateTo('cotizaciones')">Ver todas</button>
+            </div>
+            <div class="table-responsive">
+              <table class="crm-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Descripción</th>
+                    <th>Monto Estimado</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-cotizaciones-tbody">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Recent Calls -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <span>Actividades Recientes de Llamadas</span>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="window.navigateTo('llamadas')">Ver historial</button>
+            </div>
+            <div class="table-responsive">
+              <table class="crm-table">
+                <thead>
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Cliente</th>
+                    <th>Fecha Inicio</th>
+                    <th>Teléfono</th>
+                    <th>Resultado</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-llamadas-tbody">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: CLIENTES -->
+        <section id="view-clientes" class="crm-view" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span>Maestro de Clientes (clientes-api / SOAP JAX-WS)</span>
+              </div>
+              <div class="card-actions">
+                <div class="search-box">
+                  <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                  <input type="text" id="search-clientes" placeholder="Buscar por RUC, Razón Social...">
+                </div>
+                <button class="btn btn-primary" id="btn-nuevo-cliente">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <span>Nuevo Cliente</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="crm-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>RUC</th>
+                    <th>Razón Social</th>
+                    <th>Tipo</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="clientes-tbody">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: COTIZACIONES -->
+        <section id="view-cotizaciones" class="crm-view" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span>Gestión de Cotizaciones (cotizacion-api / OpenFeign)</span>
+              </div>
+              <div class="card-actions">
+                <div class="search-box">
+                  <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                  <input type="text" id="search-cotizaciones" placeholder="Buscar cotización...">
+                </div>
+                <button class="btn btn-primary" id="btn-nueva-cotizacion">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <span>Nueva Cotización</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="crm-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Cliente Asignado</th>
+                    <th>Descripción</th>
+                    <th>Monto Estimado</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="cotizaciones-tbody">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: LLAMADAS -->
+        <section id="view-llamadas" class="crm-view" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span>Bitácora de Llamadas & Actividades (llamada-api / Enums)</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-primary" id="btn-nueva-llamada">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  <span>Registrar Llamada</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="crm-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>Cliente</th>
+                    <th>Número</th>
+                    <th>Fecha y Hora</th>
+                    <th>Estado</th>
+                    <th>Resultado</th>
+                    <th>Observaciones</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="llamadas-tbody">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: SOAP CONSOLE -->
+        <section id="view-soap-console" class="crm-view" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                <span>Explorador de Servicios Web SOAP (Apache CXF & WSDL)</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-secondary btn-sm" id="btn-load-soap-crear">Ejemplo: crearCliente</button>
+                <button class="btn btn-secondary btn-sm" id="btn-load-soap-listar">Ejemplo: listarClientesActivos</button>
+                <button class="btn btn-primary btn-sm" id="btn-send-soap">Enviar Petición SOAP</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Endpoint Destino (API Gateway / Apache CXF):</label>
+              <input type="text" class="form-control" id="soap-endpoint-input" value="http://localhost:8080/clientes" readonly>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>SOAP XML Request (Envelope & Body):</label>
+                <textarea class="xml-editor" id="soap-xml-request"></textarea>
+              </div>
+              <div class="form-group">
+                <label>SOAP XML Response:</label>
+                <textarea class="xml-editor" id="soap-xml-response" readonly placeholder="La respuesta del servidor SOAP aparecerá aquí..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Microservices Status Grid -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span>Topología de Microservicios del Proyecto (DSW II)</span>
+              </div>
+            </div>
+            <div class="services-grid">
+              <div class="service-card">
+                <div>
+                  <div class="service-title">eureka-server</div>
+                  <div class="service-port">Puerto: 8761 | Discovery</div>
+                </div>
+                <span class="badge badge-info">Service Registry</span>
+              </div>
+              <div class="service-card">
+                <div>
+                  <div class="service-title">api-gateway</div>
+                  <div class="service-port">Puerto: 8080 | WebFlux</div>
+                </div>
+                <span class="badge badge-purple">CORS :4200 / JWT</span>
+              </div>
+              <div class="service-card">
+                <div>
+                  <div class="service-title">auth-service</div>
+                  <div class="service-port">Puerto: 8081 | auth_db :3310</div>
+                </div>
+                <span class="badge badge-success">BCrypt / HS256</span>
+              </div>
+              <div class="service-card">
+                <div>
+                  <div class="service-title">clientes-api</div>
+                  <div class="service-port">Puerto: 8082 | clientes_db :3307</div>
+                </div>
+                <span class="badge badge-info">Apache CXF SOAP</span>
+              </div>
+              <div class="service-card">
+                <div>
+                  <div class="service-title">cotizacion-api</div>
+                  <div class="service-port">Puerto: 8083 | cotiz_db :3309</div>
+                </div>
+                <span class="badge badge-warning">Spring OpenFeign</span>
+              </div>
+              <div class="service-card">
+                <div>
+                  <div class="service-title">llamada-api</div>
+                  <div class="service-port">Puerto: 8084 | llamada_db :3308</div>
+                </div>
+                <span class="badge badge-cyan">Enums Tipificados</span>
+              </div>
+              <div class="service-card">
+                <div>
+                  <div class="service-title">notificacion-service</div>
+                  <div class="service-port">Puerto: 8085 | Kafka :9092</div>
+                </div>
+                <span class="badge badge-purple">Event-Driven</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL: CLIENTE (CREAR / EDITAR) -->
+  <div class="modal-overlay" id="modal-cliente">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-cliente-title">Nuevo Cliente Corporativo</h3>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+      <form id="form-cliente">
+        <input type="hidden" id="cliente-id">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cliente-ruc">RUC (11 dígitos):</label>
+              <input type="text" id="cliente-ruc" class="form-control" required maxlength="11" placeholder="20100454521">
+            </div>
+            <div class="form-group">
+              <label for="cliente-tipo">Tipo de Cliente:</label>
+              <select id="cliente-tipo" class="form-control">
+                <option value="CORPORATIVO_B2B">CORPORATIVO_B2B</option>
+                <option value="VIP">VIP</option>
+                <option value="REGULAR_B2C">REGULAR_B2C</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cliente-razon">Razón Social o Nombre:</label>
+            <input type="text" id="cliente-razon" class="form-control" required placeholder="EMPRESA PERUANA S.A.C.">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cliente-email">Correo Electrónico:</label>
+              <input type="email" id="cliente-email" class="form-control" required placeholder="contacto@empresa.com.pe">
+            </div>
+            <div class="form-group">
+              <label for="cliente-telefono">Teléfono:</label>
+              <input type="text" id="cliente-telefono" class="form-control" required placeholder="016335555">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: COTIZACIÓN -->
+  <div class="modal-overlay" id="modal-cotizacion">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-cotizacion-title">Nueva Cotización Comercial</h3>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+      <form id="form-cotizacion">
+        <input type="hidden" id="cotizacion-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="cotizacion-cliente">Cliente (Validado vía OpenFeign):</label>
+            <select id="cotizacion-cliente" class="form-control" required>
+              <!-- Filled dynamically with active clients -->
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cotizacion-fecha">Fecha:</label>
+              <input type="date" id="cotizacion-fecha" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="cotizacion-monto">Monto Estimado (S/.):</label>
+              <input type="number" step="0.01" id="cotizacion-monto" class="form-control" required placeholder="15000.00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cotizacion-descripcion">Descripción del Servicio / Productos:</label>
+            <textarea id="cotizacion-descripcion" class="form-control" required placeholder="Detalle de la cotización..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cotizacion-estado">Estado:</label>
+              <select id="cotizacion-estado" class="form-control">
+                <option value="BORRADOR">BORRADOR</option>
+                <option value="ENVIADA">ENVIADA</option>
+                <option value="APROBADA">APROBADA</option>
+                <option value="RECHAZADA">RECHAZADA</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="cotizacion-obs">Observaciones:</label>
+              <input type="text" id="cotizacion-obs" class="form-control" placeholder="Condiciones comerciales...">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+          <button type="submit" class="btn btn-primary">Registrar Cotización</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: LLAMADA -->
+  <div class="modal-overlay" id="modal-llamada">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-llamada-title">Registrar Actividad Telefónica</h3>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+      <form id="form-llamada">
+        <input type="hidden" id="llamada-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="llamada-cliente">Cliente Vinculado:</label>
+            <select id="llamada-cliente" class="form-control" required>
+              <!-- Filled dynamically -->
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="llamada-tipo">Tipo de Llamada:</label>
+              <select id="llamada-tipo" class="form-control">
+                <option value="SALIENTE">SALIENTE (Asesor disca)</option>
+                <option value="ENTRANTE">ENTRANTE (Cliente llama)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="llamada-telefono">Número Telefónico:</label>
+              <input type="text" id="llamada-telefono" class="form-control" required placeholder="013155600">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="llamada-estado">Estado de la Llamada:</label>
+              <select id="llamada-estado" class="form-control">
+                <option value="FINALIZADA">FINALIZADA</option>
+                <option value="EN_CURSO">EN_CURSO</option>
+                <option value="PROGRAMADA">PROGRAMADA</option>
+                <option value="CANCELADA">CANCELADA</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="llamada-resultado">Resultado Comercial:</label>
+              <select id="llamada-resultado" class="form-control">
+                <option value="VENTA_CERRADA">VENTA_CERRADA</option>
+                <option value="INTERESADO">INTERESADO</option>
+                <option value="ATENDIDA">ATENDIDA</option>
+                <option value="NO_CONTESTADA">NO_CONTESTADA</option>
+                <option value="OCUPADO">OCUPADO</option>
+                <option value="REAGENDAR">REAGENDAR</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="llamada-obs">Bitácora / Observaciones de la Conversación:</label>
+            <textarea id="llamada-obs" class="form-control" required placeholder="Escriba los puntos clave tratados en la llamada..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar Registro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CONEXIÓN & AJUSTES -->
+  <div class="modal-overlay" id="modal-config">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Ajustes de Conexión de Microservicios</h3>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+          Este frontend se comunica a través del <strong>API Gateway en el puerto 8080</strong>. Puedes alternar entre modo en vivo y modo demo para pruebas.
+        </p>
+        <div class="form-group">
+          <label>Modo de Conexión:</label>
+          <select id="select-conn-mode" class="form-control">
+            <option value="auto">Automático (Usa Gateway si está activo, sino Demo)</option>
+            <option value="live">Servidores Conectados (Live Gateway :8080)</option>
+            <option value="mock">Modo Demo Local (Memoria del Navegador)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>URL del API Gateway:</label>
+          <input type="text" class="form-control" id="input-gateway-url" value="http://localhost:8080" readonly>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-secondary" id="btn-test-connection" style="width: 100%;">
+            Probar Conexión con API Gateway (:8080)
+          </button>
+        </div>
+        <div class="form-group" style="margin-top: 16px;">
+          <button class="btn btn-danger btn-sm" id="btn-reset-demo" style="width: 100%;">
+            Reiniciar Datos del Modo Demo a los Valores Iniciales
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-close-modal>Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: LOGIN -->
+  <div class="modal-overlay" id="modal-login">
+    <div class="modal-container" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3>Iniciar Sesión - CRM DSW II</h3>
+      </div>
+      <form id="form-login">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="login-email">Correo Institucional:</label>
+            <input type="email" id="login-email" class="form-control" required placeholder="admin@cibertec.edu.pe" value="admin@cibertec.edu.pe">
+          </div>
+          <div class="form-group">
+            <label for="login-clave">Contraseña:</label>
+            <input type="password" id="login-clave" class="form-control" required placeholder="••••••••" value="admin123">
+          </div>
+          
+          <div class="form-group">
+            <label style="font-size: 11px;">Acceso Rápido de Prueba (Demo Roles):</label>
+            <div class="quick-fill-bar">
+              <button type="button" class="btn btn-secondary btn-sm" id="quick-login-admin">ADMIN</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="quick-login-comercial">COMERCIAL</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="quick-login-dataentry">DATA_ENTRY</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Ingresar al Sistema</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+</body>
+</html>
